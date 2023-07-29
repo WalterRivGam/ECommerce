@@ -13,6 +13,6 @@ public interface ProductoDAO {
 
   public String actualizarProducto(Producto producto);
 
-  public String eliminarProducto(List<Integer> codigosProductos);
+  public String eliminarProductos(List<Integer> codigosProductos);
 
 }

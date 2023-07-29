@@ -114,7 +114,7 @@ public class ProductoDAOImpl implements ProductoDAO {
   }
 
   @Override
-  public String eliminarProducto(List<Integer> codigosProductos) {
+  public String eliminarProductos(List<Integer> codigosProductos) {
     String result = null;
     String sql = "DELETE FROM producto WHERE codigoproducto=?";
 
