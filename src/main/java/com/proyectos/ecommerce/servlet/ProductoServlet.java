@@ -20,7 +20,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-@WebServlet(name = "ProductoServlet", urlPatterns = {"/MantenimientoProductos"})
+@WebServlet(name = "ProductoServlet", urlPatterns = {"/Productos"})
 public class ProductoServlet extends HttpServlet {
 
   /**
@@ -54,13 +54,17 @@ public class ProductoServlet extends HttpServlet {
           case "accion":
             accion = item.getString();
             break;
-          case "codigo-producto":
+          case "codigo":
             int codigoProducto = Integer.parseInt(item.getString());
-            producto.setCodigoProducto(codigoProducto);
+            producto.setCodigo(codigoProducto);
             break;
           case "descripcion":
             String descripcion = item.getString();
             producto.setDescripcion(descripcion);
+            break;
+          case "marca":
+            String marca = item.getString();
+            producto.setMarca(marca);
             break;
           case "precio":
             double precio = Double.parseDouble(item.getString());
@@ -68,7 +72,15 @@ public class ProductoServlet extends HttpServlet {
             break;
           case "imagen":
             byte[] imagen = item.get();
-            producto.setImagen(imagen);
+            if(imagen.length > 0) {
+              System.out.println("Imagen no es null");
+              producto.setImagen(imagen);
+            } else {
+              System.out.println("Imagen es null");
+              int cod = producto.getCodigo();
+              producto.setImagen(productoDAO.obtenerProducto(cod).getImagen());
+            }
+            
             break;
         }
       }
@@ -100,7 +112,9 @@ public class ProductoServlet extends HttpServlet {
       msg = "Solicitud atendida";
     }
     request.setAttribute("msg", msg);
-    RequestDispatcher rp = request.getRequestDispatcher("/mantenimientoProductos.jsp");
+    System.out.println("Este es el mensaje:");
+    System.out.println(msg);
+    RequestDispatcher rp = request.getRequestDispatcher("/mensaje.jsp");
     rp.forward(request, response);
   }
 

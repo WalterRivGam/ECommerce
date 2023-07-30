@@ -1,0 +1,32 @@
+.img-prod {
+  width: 50px;
+}
+
+h1 {
+  text-align: center;
+  background-color: #dee2e6;
+  padding: 1rem;
+  font-weight: 700;
+}
+
+.home {
+  text-align: center;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  width: 18px;
+  height: 18px;
+}
+
+.checkbox,
+.radio {
+  text-align: center;
+}
+
+.btn-upd,
+.btn-del,
+.btn-ins {
+  text-align: center;
+  cursor: pointer;
+}

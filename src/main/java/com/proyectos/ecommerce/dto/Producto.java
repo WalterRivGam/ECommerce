@@ -2,18 +2,18 @@ package com.proyectos.ecommerce.dto;
 
 public class Producto {
 
-  private int codigoProducto;
+  private int codigo;
   private String descripcion;
   private String marca;
   private double precio;
   private byte[] imagen;
 
-  public int getCodigoProducto() {
-    return codigoProducto;
+  public int getCodigo() {
+    return codigo;
   }
 
-  public void setCodigoProducto(int codigoProducto) {
-    this.codigoProducto = codigoProducto;
+  public void setCodigo(int codigo) {
+    this.codigo = codigo;
   }
 
   public String getDescripcion() {

@@ -26,7 +26,7 @@ public class ProductoDAOImpl implements ProductoDAO {
             + "VALUES(?, ?, ?, ?, ?)";
 
     try (Connection cn = conecta.obtenerConexion(); PreparedStatement ps = cn.prepareStatement(sql)) {
-      ps.setInt(1, producto.getCodigoProducto());
+      ps.setInt(1, producto.getCodigo());
       ps.setString(2, producto.getDescripcion());
       ps.setString(3, producto.getMarca());
       ps.setDouble(4, producto.getPrecio());
@@ -46,14 +46,14 @@ public class ProductoDAOImpl implements ProductoDAO {
   @Override
   public List<Producto> obtenerProductos() {
     List<Producto> list = null;
-    String sql = "SELECT (codigoproducto, descripcion, marca, precio, imagen) FROM producto";
+    String sql = "SELECT codigoproducto, descripcion, marca, precio, imagen FROM producto";
 
     try (Connection cn = conecta.obtenerConexion(); Statement ps = cn.createStatement()) {
       ResultSet rs = ps.executeQuery(sql);
       list = new ArrayList<>();
       while (rs.next()) {
         Producto p = new Producto();
-        p.setCodigoProducto(rs.getInt(1));
+        p.setCodigo(rs.getInt(1));
         p.setDescripcion(rs.getString(2));
         p.setMarca(rs.getString(3));
         p.setPrecio(rs.getDouble(4));
@@ -70,7 +70,7 @@ public class ProductoDAOImpl implements ProductoDAO {
   @Override
   public Producto obtenerProducto(int codigoProducto) {
     Producto producto = null;
-    String sql = "SELECT (codigoproducto, descripcion, marca, precio, imagen) FROM producto "
+    String sql = "SELECT codigoproducto, descripcion, marca, precio, imagen FROM producto "
             + "WHERE codigoproducto = ?";
 
     try (Connection cn = conecta.obtenerConexion(); PreparedStatement ps = cn.prepareStatement(sql)) {
@@ -78,7 +78,7 @@ public class ProductoDAOImpl implements ProductoDAO {
       ResultSet rs = ps.executeQuery();
       rs.next();
       producto = new Producto();
-      producto.setCodigoProducto(rs.getInt(1));
+      producto.setCodigo(rs.getInt(1));
       producto.setDescripcion(rs.getString(2));
       producto.setMarca(rs.getString(3));
       producto.setPrecio(rs.getDouble(4));
@@ -102,6 +102,7 @@ public class ProductoDAOImpl implements ProductoDAO {
       ps.setString(2, producto.getMarca());
       ps.setDouble(3, producto.getPrecio());
       ps.setBytes(4, producto.getImagen());
+      ps.setInt(5, producto.getCodigo());
       int filasAfectadas = ps.executeUpdate();
       if (filasAfectadas == 0) {
         throw new SQLException("0 filas afectadas");
