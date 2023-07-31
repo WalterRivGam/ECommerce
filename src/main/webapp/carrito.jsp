@@ -2,23 +2,24 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Online</title>
-
+    <title>
+      Carro de compras
+    </title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/tienda.css">
+    <link rel="stylesheet" href="css/carrito.css">
   </head>
 
   <body>
     <nav>
-      <h1>Tienda Online</h1>
+      <h1 id="home">Tienda Online</h1>
       <button type="button" class="btn-carrito">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#edf2ff" viewBox="0 0 256 256">
         <path
@@ -28,25 +29,47 @@
       </button>
     </nav>
 
-    <main>
-      <div class="container">
-        <div class="row">
-          <%
-            List<Producto> productos = (List<Producto>) request.getAttribute("productos");
-            for (Producto producto : productos) {
-          %>
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 articulo">
-            <img src="VerImagen?codigo=<%= producto.getCodigo()%>" alt="">
-            <h3 class="marca"><%= producto.getMarca()%></h3>
-            <p class="descripcion"><%= producto.getDescripcion()%></p>
-            <p class="codigo">Código <%= producto.getCodigo()%></p>
-            <p class="precio">S/ <%= producto.getPrecio()%></p>
-            <button class="btn-accion" id="<%= producto.getCodigo()%>">AÑADIR AL CARRO</button>
-          </div>
-          <% }%>
-        </div>
-      </div>
-    </main>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th colspan="2">PRODUCTO</th>
+          <th>CANTIDAD</th>
+          <th>PRECIO</Th>
+          <th>TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <%
+          List<Producto> productos = (List<Producto>) request.getAttribute("productos");
+          for (Producto producto : productos) {
+        %>
+        <tr class="fila">
+          <td><img src="VerImagen?codigo=<%= producto.getCodigo()%>" alt="" class="img-prod"></td>
+          <td><%= producto.getDescripcion() %></td>
+          <td>
+            <div class="contenedor-cantidad">
+              <button class="btn btn-menos">-</button>
+              <input type="text" class="cantidad-inp" maxlength="3" value="1">
+              <button class="btn btn-mas">+</button>
+            </div>
+          </td>
+          <td class="precio">S/ <%= producto.getPrecio() %></td>
+          <td class="precio-sub-total">S/ <%= producto.getPrecio() %></td>
+        </tr>
+        <% } %>
+
+        <tr>
+          <td></td>
+          <td></td>
+          <td>
+            <button class="btn-comprar">Comprar</button>
+          </td>
+          <td class="precio">Total a pagar</td>
+          <td class="precio-total"></td>
+        </tr>
+      </tbody>
+    </table>
 
 
     <!-- Bootstrap -->
@@ -54,7 +77,7 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
 
-    <script src="js/tienda.js"></script>
+    <script src="js/carrito.js"></script>
   </body>
 
 </html>

@@ -9,6 +9,7 @@
 body {
   font-family: 'Roboto', sans-serif;
   color: #212529;
+  text-align: center;
 }
 
 nav {
@@ -36,16 +37,40 @@ h1 {
 }
 
 img {
-  width: 100%;
+  width: 50px;
   height: auto;
-  margin-bottom: 30px;
 }
 
-.articulo {
-  padding: 30px;
+.precio,
+.precio-total,
+.precio-sub-total {
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.btn-accion {
+.contenedor-cantidad {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cantidad-inp {
+  width: 60px;
+  text-align: center;
+  border-radius: 5px;
+  border: #212529 solid 1px;
+}
+
+.btn {
+  border: #212529 solid 1px;
+}
+
+.btn:hover {
+  background-color: #212529;
+  color: #fff5f5;
+}
+
+.btn-comprar {
   background-color: #f03e3e;
   color: #fff5f5;
   font-weight: 700;
@@ -56,29 +81,6 @@ img {
   width: 100%;
 }
 
-.btn-accion:hover {
-  background-color: #c92a2a;
-}
-
-.marca {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.descripcion {
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
-}
-
-.codigo {
-  color: #868e96;
-}
-
-.precio {
-  color: #f03e3e;
-  font-weight: 700;
-  font-size: 1.5rem;
+#home {
+  cursor: pointer;
 }
