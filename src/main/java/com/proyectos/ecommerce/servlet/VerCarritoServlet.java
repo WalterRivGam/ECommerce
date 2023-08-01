@@ -4,7 +4,6 @@ import com.proyectos.ecommerce.dao.ProductoDAO;
 import com.proyectos.ecommerce.dao.impl.ProductoDAOImpl;
 import com.proyectos.ecommerce.dto.Producto;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;

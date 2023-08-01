@@ -28,13 +28,11 @@ public class VerProductosServlet extends HttpServlet {
     ProductoDAO productoDAO = new ProductoDAOImpl();
     List<Producto> productos = productoDAO.obtenerProductos();
     request.setAttribute("productos", productos);
-    String target = request.getParameter("target");
-    if (target == null) {
-      target = "/productos.jsp";
-    } else if (target.equals("tienda")) {
-      target = "/tienda.jsp";
-    }
-    RequestDispatcher rd = request.getRequestDispatcher(target);
+    
+    StringBuilder target = new StringBuilder("/");
+    target.append(request.getParameter("target")).append(".jsp");
+    
+    RequestDispatcher rd = request.getRequestDispatcher(target.toString());
     rd.forward(request, response);
   }
 

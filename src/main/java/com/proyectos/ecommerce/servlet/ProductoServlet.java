@@ -4,7 +4,6 @@ import com.proyectos.ecommerce.dao.ProductoDAO;
 import com.proyectos.ecommerce.dao.impl.ProductoDAOImpl;
 import com.proyectos.ecommerce.dto.Producto;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,11 +42,11 @@ public class ProductoServlet extends HttpServlet {
 
     // para INS y UPD
     if (esMultipart) {
-      List list = recogeParam(request);
+      List<FileItem> list = recogeParam(request);
 
-      Iterator iter = list.iterator();
+      Iterator<FileItem> iter = list.iterator();
       while (iter.hasNext()) {
-        FileItem item = (FileItem) iter.next();
+        FileItem item = iter.next();
         String name = item.getFieldName();
 
         switch (name) {
@@ -73,14 +72,11 @@ public class ProductoServlet extends HttpServlet {
           case "imagen":
             byte[] imagen = item.get();
             if(imagen.length > 0) {
-              System.out.println("Imagen no es null");
               producto.setImagen(imagen);
             } else {
-              System.out.println("Imagen es null");
               int cod = producto.getCodigo();
               producto.setImagen(productoDAO.obtenerProducto(cod).getImagen());
             }
-            
             break;
         }
       }
@@ -112,14 +108,12 @@ public class ProductoServlet extends HttpServlet {
       msg = "Solicitud atendida";
     }
     request.setAttribute("msg", msg);
-    System.out.println("Este es el mensaje:");
-    System.out.println(msg);
     RequestDispatcher rp = request.getRequestDispatcher("/mensaje.jsp");
     rp.forward(request, response);
   }
 
-  private List recogeParam(HttpServletRequest request) {
-    List list = null;
+  private List<FileItem> recogeParam(HttpServletRequest request) {
+    List<FileItem> list = null;
     try {
       FileItemFactory factory = new DiskFileItemFactory();
       ServletFileUpload upload = new ServletFileUpload(factory);
