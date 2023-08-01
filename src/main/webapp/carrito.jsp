@@ -1,3 +1,4 @@
+<%@page import="java.util.Iterator"%>
 <%@page import="com.proyectos.ecommerce.dto.Producto"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -42,22 +43,25 @@
 
         <%
           List<Producto> productos = (List<Producto>) request.getAttribute("productos");
+          List<Integer> cantidades = (List<Integer>) request.getAttribute("cantidades");
+          Iterator<Integer> iter = cantidades.iterator();
           for (Producto producto : productos) {
+            int cantidad = iter.next();
         %>
         <tr class="fila">
           <td><img src="VerImagen?codigo=<%= producto.getCodigo()%>" alt="" class="img-prod"></td>
-          <td><%= producto.getDescripcion() %></td>
+          <td><%= producto.getDescripcion()%></td>
           <td>
             <div class="contenedor-cantidad">
               <button class="btn btn-menos">-</button>
-              <input type="text" class="cantidad-inp" maxlength="3" value="1">
+              <input type="text" class="cantidad-inp" maxlength="3" value="<%= cantidad%>">
               <button class="btn btn-mas">+</button>
             </div>
           </td>
-          <td class="precio">S/ <%= producto.getPrecio() %></td>
-          <td class="precio-sub-total">S/ <%= producto.getPrecio() %></td>
+          <td class="precio">S/ <%= String.format("%.2f", producto.getPrecio())%></td>
+          <td class="precio-sub-total">S/ <%= String.format("%.2f", producto.getPrecio() * cantidad)%></td>
         </tr>
-        <% } %>
+        <% }%>
 
         <tr>
           <td></td>

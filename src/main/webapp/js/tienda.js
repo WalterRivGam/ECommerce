@@ -2,36 +2,54 @@ const articulos = document.querySelectorAll('.articulo');
 const btnsAniadir = document.querySelectorAll('.btn-accion');
 const btnCarrito = document.querySelector('.btn-carrito');
 
-const codigos = new Set();
+let codigos = [];
+let cantidades = [];
 
 btnsAniadir.forEach(btnAniadir => {
   btnAniadir.addEventListener('click', (e) => {
     const codigo = parseInt(e.target.id);
-    if (codigos.has(codigo)) {
-      alert('Ya estaba en el carrito');
+    if (codigos.includes(codigo)) {
+      const index = codigos.indexOf(codigo);
+      cantidades[index]++;
     } else {
-      codigos.add(codigo);
-      const descripcion = e.target.parentElement.querySelector('.descripcion').textContent;
-      alert('Se agregó al carrito: ' + descripcion);
+      codigos.push(codigo);
+      cantidades.push(1);
     }
+    const descripcion = e.target.parentElement.querySelector('.descripcion').textContent;
+    const precio = e.target.parentElement.querySelector('.precio').textContent;
+    alert('Estás agregando: ' + descripcion + ' a ' + precio);
+
   });
 });
 
 btnCarrito.addEventListener('click', () => {
-  const cadena = formarCadena(codigos);
-  if(cadena.length > 0) {
-    window.location = 'VerCarrito?codigos=' + cadena;
+  const cadenaDeCodigos = formarCadenaDeCodigos(codigos);
+  const cadenaDeCantidades = formarCadenaDeCantidades(cantidades);
+  console.log("Cadena de cantidades: " + cadenaDeCantidades);
+  if (codigos.length > 0) {
+    window.location = 'VerCarrito?codigos=' + cadenaDeCodigos + '&cantidades=' + cadenaDeCantidades;
   } else {
     alert('Carrito vacío!');
   }
 });
 
-function formarCadena(codigos) {
+function formarCadenaDeCodigos(codigos) {
   let cadena = ""
   codigos.forEach(codigo => {
     cadena += (codigo + ',');
   });
-  if(cadena.length > 0) {
+  if (cadena.length > 0) {
+    cadena = cadena.substring(0, cadena.length - 1);
+  }
+  return cadena;
+}
+
+function formarCadenaDeCantidades(cantidades) {
+  let cadena = ""
+  cantidades.forEach(cantidad => {
+    cadena += (cantidad + ',');
+  });
+  if (cadena.length > 0) {
     cadena = cadena.substring(0, cadena.length - 1);
   }
   return cadena;

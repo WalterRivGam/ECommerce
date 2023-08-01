@@ -40,7 +40,7 @@
             <h3 class="marca"><%= producto.getMarca()%></h3>
             <p class="descripcion"><%= producto.getDescripcion()%></p>
             <p class="codigo">Código <%= producto.getCodigo()%></p>
-            <p class="precio">S/ <%= producto.getPrecio()%></p>
+            <p class="precio">S/ <%= String.format("%.2f", producto.getPrecio())%></p>
             <button class="btn-accion" id="<%= producto.getCodigo()%>">AÑADIR AL CARRO</button>
           </div>
           <% }%>

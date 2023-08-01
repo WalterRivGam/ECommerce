@@ -14,10 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author walte
- */
+
 @WebServlet(name = "VerCarritoServlet", urlPatterns = {"/VerCarrito"})
 public class VerCarritoServlet extends HttpServlet {
 
@@ -31,6 +28,7 @@ public class VerCarritoServlet extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
+    
     String codigos = request.getParameter("codigos");
     String[] codigosArr = codigos.split(",");
     List<Producto> productos = new ArrayList<>();
@@ -40,6 +38,15 @@ public class VerCarritoServlet extends HttpServlet {
       productos.add(producto);
     }
     request.setAttribute("productos", productos);
+    
+    String cantidadesStr = request.getParameter("cantidades");
+    String[] cantidadesArr = cantidadesStr.split(",");
+    List<Integer> cantidades = new ArrayList<>();
+    for(String cant : cantidadesArr) {
+      cantidades.add(Integer.parseInt(cant));
+    }
+    request.setAttribute("cantidades", cantidades);
+    
     RequestDispatcher rd = request.getRequestDispatcher("/carrito.jsp");
     rd.forward(request, response);
   }
