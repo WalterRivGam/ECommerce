@@ -5,7 +5,6 @@ import com.proyectos.ecommerce.dao.impl.ProductoDAOImpl;
 import com.proyectos.ecommerce.dto.Producto;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +25,6 @@ public class VerImagenServlet extends HttpServlet {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     int codigo = Integer.parseInt(request.getParameter("codigo"));
-    System.out.println(codigo);
     ProductoDAO productoDAO = new ProductoDAOImpl();
     Producto producto = productoDAO.obtenerProducto(codigo);
     byte[] imagen = producto.getImagen();

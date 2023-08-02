@@ -27,7 +27,7 @@ btnCarrito.addEventListener('click', () => {
   const cadenaDeCantidades = formarCadenaDeCantidades(cantidades);
   console.log("Cadena de cantidades: " + cadenaDeCantidades);
   if (codigos.length > 0) {
-    window.location = 'VerCarrito?codigos=' + cadenaDeCodigos + '&cantidades=' + cadenaDeCantidades;
+    window.location = 'Carrito?codigos=' + cadenaDeCodigos + '&cantidades=' + cadenaDeCantidades;
   } else {
     alert('Carrito vacío!');
   }

@@ -19,22 +19,22 @@
     <h1>Nuevo Producto</h1>
     <div class="form-cont">
       <form action="Productos" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="accion" value="insertar">
+        <input type="hidden" name="accion" value="insertar" autocomplete="off">
         <div class="mb-3">
           <label for="codigo" class="form-label">Código</label>
-          <input type="text" name="codigo" id="codigo" class="form-control">
+          <input type="text" name="codigo" id="codigo" class="form-control" autocomplete="off">
         </div>
         <div class="mb-3">
           <label for="descripcion" class="form-label">Descripción</label>
-          <input type="text" name="descripcion" id="descripcion" class="form-control">
+          <input type="text" name="descripcion" id="descripcion" class="form-control" autocomplete="off">
         </div>
         <div class="mb-3">
           <label for="marca" class="form-label">Marca</label>
-          <input type="text" name="marca" id="marca" class="form-control">
+          <input type="text" name="marca" id="marca" class="form-control" autocomplete="off">
         </div>
         <div class="mb-3">
           <label for="precio" class="form-label">Precio</label>
-          <input type="text" name="precio" id="precio" class="form-control">
+          <input type="text" name="precio" id="precio" class="form-control" autocomplete="off">
         </div>
         <div class="mb-3">
           <label for="imagen" class="form-label">Imagen</label>
@@ -46,7 +46,7 @@
       </form>
     </div>
     <div class="cancelar">
-      <a href="productos.html">Cancelar</a>
+      <a href="Productos?accion=obtenerproductos&target=productos">Cancelar</a>
     </div>
 
     <!-- Bootstrap -->

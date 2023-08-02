@@ -52,5 +52,5 @@ function actualizarPrecioTotal() {
 }
 
 homeBtn.addEventListener('click', () => {
-  document.location = 'VerProductos?target=tienda';
+  document.location = 'Productos?accion=obtenerproductos&target=tienda';
 });

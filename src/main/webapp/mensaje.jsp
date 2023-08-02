@@ -13,6 +13,6 @@
   <body>
     <h1>Mensaje</h1>
     <p><%= (String)request.getAttribute("msg") %></p>
-    <a href="VerProductos?target=productos">Home</a>
+    <a href="Productos?accion=obtenerproductos&target=productos">Home</a>
   </body>
 </html>

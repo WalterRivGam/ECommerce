@@ -34,7 +34,7 @@ public class ProductoServlet extends HttpServlet {
           throws ServletException, IOException {
     String accion = null;
     String msg = null;
-    List<Integer> codigosProductos = null;
+    String target = "/mensaje.jsp";;
 
     Producto producto = new Producto();
     ProductoDAO productoDAO = new ProductoDAOImpl();
@@ -43,7 +43,6 @@ public class ProductoServlet extends HttpServlet {
     // para INS y UPD
     if (esMultipart) {
       List<FileItem> list = recogeParam(request);
-
       Iterator<FileItem> iter = list.iterator();
       while (iter.hasNext()) {
         FileItem item = iter.next();
@@ -71,7 +70,7 @@ public class ProductoServlet extends HttpServlet {
             break;
           case "imagen":
             byte[] imagen = item.get();
-            if(imagen.length > 0) {
+            if (imagen.length > 0) {
               producto.setImagen(imagen);
             } else {
               int cod = producto.getCodigo();
@@ -80,10 +79,8 @@ public class ProductoServlet extends HttpServlet {
             break;
         }
       }
-    } else { // para DEL
+    } else {
       accion = request.getParameter("accion");
-      String codigos = request.getParameter("codigos");
-      codigosProductos = getCodigos(codigos);
     }
 
     if (accion == null) {
@@ -94,10 +91,24 @@ public class ProductoServlet extends HttpServlet {
           msg = productoDAO.insertarProducto(producto);
           break;
         case "eliminar":
+          String codigos = request.getParameter("codigos");
+          List<Integer> codigosProductos = getCodigos(codigos);
           msg = productoDAO.eliminarProductos(codigosProductos);
           break;
         case "actualizar":
           msg = productoDAO.actualizarProducto(producto);
+          break;
+        case "obtenerproductos":    
+          target = "/" + request.getParameter("target") + ".jsp";
+          
+          List<Producto> productos = productoDAO.obtenerProductos();
+          request.setAttribute("productos", productos);
+          break;
+        case "obtenerproducto":
+          int codigo = Integer.parseInt(request.getParameter("codigo"));
+          producto = productoDAO.obtenerProducto(codigo);
+          request.setAttribute("producto", producto);
+          target = "/productoUpd.jsp";
           break;
         default:
           msg = "Solicitud no reconocida";
@@ -108,7 +119,7 @@ public class ProductoServlet extends HttpServlet {
       msg = "Solicitud atendida";
     }
     request.setAttribute("msg", msg);
-    RequestDispatcher rp = request.getRequestDispatcher("/mensaje.jsp");
+    RequestDispatcher rp = request.getRequestDispatcher(target);
     rp.forward(request, response);
   }
 

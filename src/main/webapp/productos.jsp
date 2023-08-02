@@ -55,7 +55,7 @@
             <td><%= producto.getDescripcion()%></td>
             <td><%= producto.getMarca()%></td>
             <td>S/ <%= String.format("%.2f", producto.getPrecio())%></td>
-            <td><img src="VerImagen?codigo=<%= producto.getCodigo()%>" alt="" class="img-prod"></td>
+            <td><img src="VerImagen?codigo=<%= producto.getCodigo()%>" alt="imagen no disponible" class="img-prod"></td>
             <td></td>
             <td class="checkbox">
               <input type="checkbox" name="productoDel" value="<%= producto.getCodigo()%>">

@@ -22,7 +22,7 @@ btnUpd.addEventListener('click', () => {
   if (codigo === null) {
     alert('Debe seleccionar un producto!');
   } else if (confirm('¿Desea actualizar el registro?')) {
-    window.location = 'VerProducto?codigo=' + codigo;
+    window.location = 'Productos?accion=obtenerproducto&codigo=' + codigo;
   }
 });
 

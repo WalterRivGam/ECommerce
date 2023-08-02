@@ -17,7 +17,6 @@
   </head>
 
   <body>
-    <% System.out.println("Dentro de productoUpd.jsp"); %>);
     <% Producto producto = (Producto) request.getAttribute("producto");%>
     <h1>Actualizar Producto</h1>
     <div class="form-cont">
@@ -51,7 +50,7 @@
       </form>
     </div>
     <div class="cancelar">
-      <a href="productos.html">Cancelar</a>
+      <a href="Productos?accion=obtenerproductos&target=productos">Cancelar</a>
     </div>
 
     <!-- Bootstrap -->

@@ -4,7 +4,8 @@ import com.proyectos.ecommerce.dao.ProductoDAO;
 import com.proyectos.ecommerce.dao.impl.ProductoDAOImpl;
 import com.proyectos.ecommerce.dto.Producto;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,8 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "VerProducto", urlPatterns = {"/VerProducto"})
-public class VerProductoServlet extends HttpServlet {
+
+@WebServlet(name = "CarritoServlet", urlPatterns = {"/Carrito"})
+public class CarritoServlet extends HttpServlet {
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -25,11 +27,26 @@ public class VerProductoServlet extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
+    
+    String codigos = request.getParameter("codigos");
+    String[] codigosArr = codigos.split(",");
+    List<Producto> productos = new ArrayList<>();
     ProductoDAO productoDAO = new ProductoDAOImpl();
-    int codigo = Integer.parseInt(request.getParameter("codigo"));
-    Producto producto = productoDAO.obtenerProducto(codigo);
-    request.setAttribute("producto", producto);
-    RequestDispatcher rd = request.getRequestDispatcher("/productoUpd.jsp");
+    for(String codigo : codigosArr) {
+      Producto producto = productoDAO.obtenerProducto(Integer.parseInt(codigo));
+      productos.add(producto);
+    }
+    request.setAttribute("productos", productos);
+    
+    String cantidadesStr = request.getParameter("cantidades");
+    String[] cantidadesArr = cantidadesStr.split(",");
+    List<Integer> cantidades = new ArrayList<>();
+    for(String cant : cantidadesArr) {
+      cantidades.add(Integer.parseInt(cant));
+    }
+    request.setAttribute("cantidades", cantidades);
+    
+    RequestDispatcher rd = request.getRequestDispatcher("/carrito.jsp");
     rd.forward(request, response);
   }
 

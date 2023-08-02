@@ -18,3 +18,8 @@ ul {
   flex-direction: column;
   gap: 1rem;
 }
+
+a:link,
+a:visited {
+  color: #1864ab;
+}
