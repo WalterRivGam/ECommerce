@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="com.proyectos.ecommerce.dto.Producto"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -27,6 +28,9 @@
         </svg>
       </button>
     </nav>
+    
+    <% Object obj = request.getSession().getAttribute("prodsCarrito"); %>
+    <div hidden class="estado-carrito"><%= obj == null ? "vacio" : "novacio" %></div>
 
     <main>
       <div class="container">
@@ -41,7 +45,7 @@
             <p class="descripcion"><%= producto.getDescripcion()%></p>
             <p class="codigo">Código <%= producto.getCodigo()%></p>
             <p class="precio">S/ <%= String.format("%.2f", producto.getPrecio())%></p>
-            <button class="btn-accion" id="<%= producto.getCodigo()%>">AÑADIR AL CARRO</button>
+            <button class="btn-aniadir" id="<%= producto.getCodigo()%>">AÑADIR AL CARRO</button>
           </div>
           <% }%>
         </div>
@@ -54,6 +58,9 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
 
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    
     <script src="js/tienda.js"></script>
   </body>
 

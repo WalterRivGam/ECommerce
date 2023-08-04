@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="com.proyectos.ecommerce.dto.Producto"%>
 <%@page import="java.util.List"%>
@@ -40,16 +41,16 @@
         </tr>
       </thead>
       <tbody>
-
         <%
-          List<Producto> productos = (List<Producto>) request.getAttribute("productos");
-          List<Integer> cantidades = (List<Integer>) request.getAttribute("cantidades");
-          Iterator<Integer> iter = cantidades.iterator();
-          for (Producto producto : productos) {
-            int cantidad = iter.next();
+          Map<Producto, Integer> prodsCarrito = (Map<Producto, Integer>) request.getSession().
+                  getAttribute("prodsCarrito");
+          for (Map.Entry<Producto, Integer> prodCarrito : prodsCarrito.entrySet()) {
+            Producto producto = prodCarrito.getKey();
+            int cantidad = prodCarrito.getValue();
         %>
         <tr class="fila">
-          <td><img src="VerImagen?codigo=<%= producto.getCodigo()%>" alt="" class="img-prod"></td>
+          <td class="codigo" hidden><%= producto.getCodigo()%></td>
+          <td><img src="VerImagen?codigo=<%= producto.getCodigo()%>" class="img-prod" width="50" height="50"></td>
           <td><%= producto.getDescripcion()%></td>
           <td>
             <div class="contenedor-cantidad">
@@ -80,6 +81,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
+    
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <script src="js/carrito.js"></script>
   </body>

@@ -7,34 +7,49 @@ actualizarPrecioTotal();
 
 filas.forEach((fila) => {
   fila.addEventListener('click', (e) => {
-    // Actualiza la cantidad
     if (e.target.classList.contains('btn-mas')) {
+      const codigo = e.currentTarget.querySelector('.codigo').textContent;
       const cantInput = e.currentTarget.querySelector('.cantidad-inp');
       let cant = parseInt(cantInput.value, 10);
       if (cant < 999) {
-        cant++;
+        $.ajax({
+          url: 'Carrito',
+          data: {
+            accion: 'aumentar',
+            codigo: codigo,
+            success: function () {
+              cantInput.value = cant + 1;
+              actualizarPrecio(e, cant + 1);
+              actualizarPrecioTotal();
+            }
+          },
+          type: 'POST'
+        });
       }
-      cantInput.value = cant;
-
-      // Actualiza los precios
-      actualizarPrecio(e, cant);
-      actualizarPrecioTotal();
     } else if (e.target.classList.contains('btn-menos')) {
-      // Actualiza la cantidad
+      const codigo = e.currentTarget.querySelector('.codigo').textContent;
       const cantInput = e.currentTarget.querySelector('.cantidad-inp');
       let cant = parseInt(cantInput.value, 10);
       if (cant > 0) {
-        cant--;
+        $.ajax({
+          url: 'Carrito',
+          data: {
+            target: 'carrito',
+            accion: 'disminuir',
+            codigo: codigo,
+            success: function () {
+              cantInput.value = cant - 1;
+              actualizarPrecio(e, cant - 1);
+              actualizarPrecioTotal();
+            }
+          },
+          type: 'POST'
+        });
       }
-      cantInput.value = cant;
-
-      // Actualiza los precios
-      actualizarPrecio(e, cant);
-      actualizarPrecioTotal();
     }
   });
 });
-
+//
 function actualizarPrecio(e, cant) {
   const precio = e.currentTarget.querySelector('.precio');
   const precioSubTotal = e.currentTarget.querySelector('.precio-sub-total');
@@ -42,7 +57,7 @@ function actualizarPrecio(e, cant) {
   let precioSubTotalActual = 'S/ ' + (precioUnid * cant).toFixed(2);
   precioSubTotal.textContent = precioSubTotalActual;
 }
-
+//
 function actualizarPrecioTotal() {
   let total = 0;
   subTotales.forEach((subTotal) => {

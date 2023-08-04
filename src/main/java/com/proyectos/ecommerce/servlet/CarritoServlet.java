@@ -4,15 +4,13 @@ import com.proyectos.ecommerce.dao.ProductoDAO;
 import com.proyectos.ecommerce.dao.impl.ProductoDAOImpl;
 import com.proyectos.ecommerce.dto.Producto;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 @WebServlet(name = "CarritoServlet", urlPatterns = {"/Carrito"})
 public class CarritoServlet extends HttpServlet {
@@ -27,27 +25,55 @@ public class CarritoServlet extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    
-    String codigos = request.getParameter("codigos");
-    String[] codigosArr = codigos.split(",");
-    List<Producto> productos = new ArrayList<>();
     ProductoDAO productoDAO = new ProductoDAOImpl();
-    for(String codigo : codigosArr) {
-      Producto producto = productoDAO.obtenerProducto(Integer.parseInt(codigo));
-      productos.add(producto);
+    Map<Producto, Integer> prodsCarrito = getProdsExistentes(request);
+
+    int codigo = Integer.parseInt(request.getParameter("codigo"));
+    String accion = request.getParameter("accion");
+
+    if (prodsCarrito == null && accion.equals("aumentar")) {
+      prodsCarrito = new HashMap<>();
+      Producto producto = productoDAO.obtenerProducto(codigo);
+      prodsCarrito.put(producto, 1);
+    } else if (prodsCarrito != null && accion.equals("aumentar")) {
+      boolean productoNuevo = true;
+      for (Map.Entry<Producto, Integer> prodEntry : prodsCarrito.entrySet()) {
+        if (prodEntry.getKey().getCodigo() == codigo) {
+          int nuevaCant = prodEntry.getValue() + 1;
+          prodEntry.setValue(nuevaCant);
+          productoNuevo = false;
+        }
+      }
+      if (productoNuevo) {
+        Producto producto = productoDAO.obtenerProducto(codigo);
+        prodsCarrito.put(producto, 1);
+      }
+    } else if (accion.equals("disminuir")) {
+      Producto prodBorrar = null;
+      for (Map.Entry<Producto, Integer> prodEntry : prodsCarrito.entrySet()) {
+        if (prodEntry.getKey().getCodigo() == codigo) {
+          int nuevaCant = prodEntry.getValue() - 1;
+          prodEntry.setValue(nuevaCant);
+          if (nuevaCant == 0) {
+            prodBorrar = prodEntry.getKey();
+          }
+        }
+      }
+      if (prodBorrar != null) {
+        prodsCarrito.remove(prodBorrar);
+      }
     }
-    request.setAttribute("productos", productos);
-    
-    String cantidadesStr = request.getParameter("cantidades");
-    String[] cantidadesArr = cantidadesStr.split(",");
-    List<Integer> cantidades = new ArrayList<>();
-    for(String cant : cantidadesArr) {
-      cantidades.add(Integer.parseInt(cant));
+
+    request.getSession().setAttribute("prodsCarrito", prodsCarrito);
+  }
+
+  Map<Producto, Integer> getProdsExistentes(HttpServletRequest request) {
+    Map<Producto, Integer> prodsExistentes = null;
+    Object prodsCarr = request.getSession().getAttribute("prodsCarrito");
+    if (prodsCarr != null) {
+      prodsExistentes = (Map<Producto, Integer>) prodsCarr;
     }
-    request.setAttribute("cantidades", cantidades);
-    
-    RequestDispatcher rd = request.getRequestDispatcher("/carrito.jsp");
-    rd.forward(request, response);
+    return prodsExistentes;
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
