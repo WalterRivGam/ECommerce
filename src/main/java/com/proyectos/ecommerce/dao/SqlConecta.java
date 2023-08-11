@@ -10,7 +10,7 @@ public class SqlConecta {
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
       cn = DriverManager.getConnection(
-              "jdbc:mysql://localhost:3306/bdecommerce?serverTimezone=UTC", "root", "WalSql579");
+              "jdbc:mysql://localhost:3306/bdecommerce?serverTimezone=UTC", "root", "password");
     } catch (Exception e) {
       e.printStackTrace();
     }
